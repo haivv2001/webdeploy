@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .hai{
+            position: relative;
+            background-image:url(/image/ảnh\ bìa.jpg) ;
+            background-size: cover;
+            background-position: center;
+            height: 100%; 
+        }
+        .t1{
+            position: absolute;
+            top: 210px;
+            left: 42%;
+            height: 20px;
+            border-radius: 7px;
+            
+        }
+        .t2{
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 130px;
+            color: black;
+        }
+        .t4{
+            position: absolute;
+            top: 210px;
+            left: 37%;
+            
+            
+
+        }
+        .t3{
+            
+            position: absolute;
+            height: 30px;
+            width: 150px;
+            top: 320px;
+            left: 45%;
+            background-color: darkgreen;
+            color: aliceblue;
+            border-radius: 5px;
+        }
+        .t5{
+            position: absolute;
+            top: 250px;
+            left: 48.5%;
+            text-decoration: none;
+            color: #0084a8;
+        }
+        .t6{
+            margin-left: auto;
+            margin-right: auto;
+            position: absolute;
+            top: 20%;
+            left: 0;
+            right: 0;
+            width: 550px;
+            height: 300px;
+            border: 2px solid black;
+            background-color: white;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+<body>
+<div class="hai">
+<div class="t6"></div>
+    <h2 class="t2">PASSWORD RECOVERY</h2>
+    <form method="post" action="forgot.php">
+        <label class="t4" for="email">Gmail </label>
+        <input type="email" class="t1" name="email" size="27px" required>
+        <a class="t5" href="./resiger.php">Creat Admin account </a>
+        <button type="submit" class="t3" name="submit" >Submit</button>
+    </form>
+</div>
+</body>
+</html>

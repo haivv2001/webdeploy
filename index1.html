@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .hai{
+            position: relative;
+            background-image: url(https://sbft.hust.edu.vn/wp-content/uploads/2023/07/HUST-C1-b.jpg);
+            background-size: cover;
+            background-position: center;
+            height: 100%; 
+        }
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 130px;
+            /* left: 35%; */
+            width: 500px;
+            height: 370px;
+            
+            
+           
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: darkred;
+        }
+        input[type="text"],
+        input[type="password"]
+        {
+            margin-left: 15%;
+            margin-bottom: 20px;
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            margin-left:15%;
+            margin-top:25px;
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        input[type="checkbox"] {
+            display: inline-block;
+            margin-left: 15%;
+            margin-bottom: 15px;
+           background-color: rgb(255, 0, 234);
+            border-radius: 3px;
+
+        }
+        .img_1 {
+            position: absolute;
+            top: 150px;
+            left: 380px;
+
+        }
+        .img_2{
+            position: absolute;
+            top: -10px;
+            left:-104px;
+            /* height: 150px;
+            width: 300px; */
+            
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="hai">
+    <div>
+        <!-- <img class="img_1" width="300px" height="300px" src="image/vân tay.png" > -->
+        <img class="img_2"  src="image/logo1.png"  >
+      
+    </div>
+    <div class="container">
+        <h2>ADMIN LOG IN</h2>
+        <form action="login.php" method="post">
+            <input type="text" name="username" placeholder="username" required>
+            <input type="password" name="password" placeholder="password" required>
+            <input  type="checkbox" name="checkbox" id="checkbox" placeholder=" " required> 
+            <label style="display: inline-block; font-size:15 ;color: #000000;">remember</label>
+            <!-- <p style="display: inline-block;margin-left: 150px;">Forgot password ?</p> -->
+            <a  href="./resiger.php" style="display: inline-block;margin-left: 150px; text-decoration: none;color: #000000;">Forgot password ?</a>
+            
+            <input type="submit" name="login" value="LOG IN">  
+           
+        </form>
+    </div>
+    
+</div>
+
+<!-- <script src="./index1.js"></script> -->
+</body>
+</html>

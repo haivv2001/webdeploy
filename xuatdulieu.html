@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIỂM TRA DỮ LIỆU</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+    #class {
+        border-collapse: collapse;
+        /* width: 100%; */
+        height: 350px;
+        width: 800px;
+        position: absolute;
+        top: 20%;
+        left: 30%;
+        background-color: white;
+    }
+
+    #class th, #class td {
+        border: 2px solid black;
+        text-align: left;
+        padding: 8px;
+    }
+
+    #class tr:nth-child(even) {
+        background-color: white;
+    }
+    .pagination {
+        display: flex;
+       justify-content: center;
+        position: absolute;
+        width: 100%;
+        top: 90%;
+        /* left: 50%;   */
+    }
+
+    .pagination a {
+        text-decoration: none;
+        color: blue;
+        margin: 0 5px;
+    }
+    .t1{
+        position: absolute;
+        top: 43%;
+        left: 4%;
+        border-radius: 5px;
+    }
+    .t2{
+        position: absolute;
+        top: 32%;
+        left: 5%;
+        font-size: 20px;
+        color: red;
+        border-radius: 10px;
+    }
+    .t3{
+        position: absolute;
+        top: 49%;
+        left: 4%;
+        height: 20px;
+        width: 176px;
+        background-color: darkgreen;
+        color: #f2f2f2;
+        border-radius: 5px;
+    }
+    .t5{
+        position: absolute;
+        border: 2px solid black;
+        height: 200px;
+        width: 250px;
+        top: 30%;
+        left: 2%;
+        border-radius: 10px;
+    }
+    .t4{
+        position: absolute;
+        top: 54%;
+        left: 4%;
+        height: 20px;
+        width: 176px;
+        background-color: darkgreen;
+        color: #dddddd;
+        border-radius: 5px;
+    }
+    .img_2{
+            position: absolute;
+            top: -10px;
+            left:-104px;
+            /* height: 150px;
+            width: 300px; */
+            
+        }
+    
+</style>
+</head>
+<body>
+    <div>
+        <img class="img_2"  src="image/logo1.png"  >
+    </div>
+    <div class="t5"></div>
+    <h1 class="t2">BẢNG CÔNG CỤ</h1>
+    <div id="output"></div>
+    <input type="text" class="t1" placeholder="Search...">
+    <button class="t3">sắp xếp tăng dần</button>
+    <button class="t4" >sắp xếp giảm dần</button>
+    
+    <table id="class">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+    <div class="pagination"></div>
+    <script>
+       
+document.addEventListener("DOMContentLoaded", function() {
+    var dataPerPage = 10; // Số lượng mục dữ liệu trên mỗi trang
+    var currentPage = 1; // Trang hiện tại
+    var responseData = [];
+    $.ajax({
+        type : "Get",
+        url:"https://script.google.com/macros/s/AKfycbywfq5TTgZ3Eu2iQBNIw0dD8G5GGZNi_Da_eJ3elGroAfkBOBH0oFF3v3ZfuegNK7Ta/exec",
+        dataType:"json",
+        success: function(response){
+            responseData = response;
+            var totalItems = response.length;
+            var totalPages = Math.ceil(totalItems / dataPerPage);
+            function displayData(page) {
+                var start = (page - 1) * dataPerPage;
+                var end = start + dataPerPage;
+                var dataToShow = response.slice(start, end);
+            // function appendData(data) {
+                $("#class tbody").empty();
+                // $("#class").append(firstRow);
+                // data.forEach(function(item) {
+                    dataToShow.forEach(function(item) {
+                    var isoDate = new Date(item.Date);
+                    var standardDate = isoDate.getDate() + "/" + (isoDate.getMonth() + 1) + "/" + isoDate.getFullYear();
+                    var isotime = new Date(item.Time);
+                    var standardTime = isotime.getHours()+":" + isotime.getMinutes()+":" +isotime.getSeconds();   
+                    $("#class tbody").append("<tr><td>"+standardDate+ "</td><td>"+standardTime+"</td><td>"+item.Name+"</td></tr>");
+                });
+                displayPagination(page, totalPages);
+            }
+            function displayPagination(currentPage, totalPages) {
+                $(".pagination").empty();
+                var paginationHTML = "";
+                for (var i = 1; i <= totalPages; i++) {
+                    paginationHTML += "<a href='#' class='page-link' data-page='" + i + "'>" + i + "</a>";
+                }
+                $(".pagination").html(paginationHTML);
+
+                $(".page-link").click(function(e) {
+                    e.preventDefault();
+                    var page = $(this).attr("data-page");
+                    displayData(page, responseData);
+                });
+            }
+
+            displayData(currentPage, responseData);
+            // appendData(response);
+            // $(".t1").on("keyup", function() {
+            //     var value = $(this).val().toLowerCase();
+            //     $("#class tbody tr").each(function() {
+            //         var rowText = $(this).text().toLowerCase();
+            //         if (rowText.includes(value)) {
+            //             $(this).css("display", ""); 
+            //         } else {
+            //             $(this).css("display", "none"); 
+            //         }
+            //     });
+            // });
+            $(".t1").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                var filteredData = responseData.filter(function(item) {
+                    var rowText = "";
+                    if (typeof item.Date === 'string') {
+                        rowText += item.Date.toLowerCase() + " ";
+                    }
+                    if (typeof item.Time === 'string') {
+                        rowText += item.Time.toLowerCase() + " ";
+                    }
+                    if (typeof item.Name === 'string') {
+                        rowText += item.Name.toLowerCase();
+                    }
+                    return rowText.includes(value);
+                });
+                var totalFilteredItems = filteredData.length;
+                var totalFilteredPages = Math.ceil(totalFilteredItems / dataPerPage);
+                $("#class tbody").empty();
+                console.log(filteredData );
+                
+            });
+            displayData(currentPage,filteredData);
+            displayPagination(currentPage, totalFilteredPages);
+            $(".t3").on("click", function() {
+                var sortedData = responseData.sort(function(a, b) {
+                    return new Date(a.Date) - new Date(b.Date);
+                });
+                // appendData(sortedData);
+                displayData(currentPage);
+            });
+            $(".t4").on("click", function() {
+                var sortedData = responseData.sort(function(a, b) {
+                    return new Date(b.Date) - new Date(a.Date);
+                });
+                // appendData(sortedData);
+                displayData(currentPage);
+            });
+           
+        }
+    });
+});
+    </script>
+</body>
+</html>

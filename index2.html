@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .tong{
+            position: relative;
+            background-image: url(https://sbft.hust.edu.vn/wp-content/uploads/2023/07/HUST-C1-b.jpg);
+            background-size: cover;
+            background-position: center;
+            height: 100%; 
+        }
+        .label{
+            margin-left: auto;
+            margin-right: auto;
+            /* background-color:  #23074d; */
+            position: absolute;
+            top: 15%;
+            left: 0;
+            right: 0;
+            width: 650px;
+            height: 380px;
+            border: 2px solid skyblue;
+            background-color: snow;
+        }
+        .t1 {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        top: 20%;
+        transform: translateY(-50%);
+        color: blue;
+        }
+        /* .a1{
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            background-color: aliceblue;
+        } */
+        .e1{
+            grid-row: 1;
+            grid-column: 1;
+            position: absolute;
+            top: 32%;
+            left: 30%;
+           
+        }
+        .e2{
+            grid-row: 1;
+            grid-column: 1;
+            position: absolute;
+            top: 38%;
+            left: 30%;
+        }
+        .e3{
+            grid-row: 1;
+            grid-column: 1;
+            position: absolute;
+            top: 44%;
+            left: 30%;
+        }
+        .e4{
+            grid-row: 1;
+            grid-column: 1;
+            position: absolute;
+            top: 50%;
+            left: 30%;
+        }
+        
+        .e6{
+            grid-row: 1;
+            grid-column: 1;
+            position: absolute;
+            top: 57%;
+            left: 30%;
+        }
+        .e5 input[type=submit]{
+            height: 30px;
+            width: 100px;
+            grid-row: 1;
+            grid-column: 1;
+            position: absolute;
+            top: 57%;
+            left: 45%;
+            background-color: rgb(0, 110, 255);
+            color: aliceblue;
+        }
+        .I2{
+            position: absolute;
+            top: 85%;
+            left: 60%;
+
+        }
+        .img_2{
+            position: absolute;
+            top: -10px;
+            left:-104px;
+            /* height: 150px;
+            width: 300px; */
+            
+        }
+    </style>
+</head>
+<body>
+<div class="tong">
+    <div>
+        <img class="img_2"  src="image/logo1.png"  >
+    </div>
+    <div class="label"></div>
+    <h1 class="t1">ĐĂNG KÝ TÀI KHOẢN</h1>
+    <form class="a1" action="">
+        <div class="e1">
+        <label for="s1" > tên tài khoản</label>
+        <input id="s1" style="margin-left: 50px;" type="text" name="tên tài khoản" placeholder="" size="30px">
+        </div>
+        <br><br>
+        <div class="e2">
+        <label for="s2"> mật khẩu</label>
+        <input style="margin-left: 73px;" type="password" name="mat khau" id="s2" placeholder="" size="30px">
+        </div>
+        <br><br>
+        <div class="e3">
+        <label for="s3">nhập lại mật khẩu</label>
+        <input style="margin-left: 18px;" type="password" name="nhập lại mật khẩu" id="s3" placeholder="" size="30px">
+        </div>
+        <br><br>
+        <div class="e4">
+        <label for="s4">gmail</label>
+        <input style="margin-left: 96px;" type="email" name="họ và tên" id="s4" placeholder="" size="30px" >
+        </div>
+        <br><br>
+       
+        <div class="e5">
+            <input type="submit" name="login" value="ĐĂNG KÝ" > 
+        </div>
+    </form>
+    
+</div>
+</body>
+</html>
