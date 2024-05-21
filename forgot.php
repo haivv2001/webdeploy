@@ -5,7 +5,7 @@ $users = null;
     if(isset($_POST['submit']))
     {
         $email = $_POST['email'];
-        $sql = "SELECT * FROM user1_name WHERE email=?";
+        $sql = "SELECT * FROM user1_name WHERE email=?";//kiểm tra xem có phải gmail đã đăng kí trên database không
         $stmt = $conn->prepare($sql);
         if(!$stmt) {
             echo "Preparation failed: (" . $conn->errno . ") " . $conn->error;
@@ -16,7 +16,7 @@ $users = null;
             $user = $result->fetch_assoc();
         
             if($user){
-                $sql = "SELECT password FROM user1_name WHERE email=?";
+                $sql = "SELECT password FROM user1_name WHERE email=?";//chon pass ở email đăng nhâp
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("s", $email);
                 $stmt->execute();
@@ -26,13 +26,13 @@ $users = null;
             }
             if($users)
             {
-                $password = $users['password'];
-                require 'PHPMailer-master/src/PHPMailer.php';
+                $password = $users['password'];//lấy cột pass ở biến users ra
+                require 'PHPMailer-master/src/PHPMailer.php';// cần tải thư viên phpmailer(lên youtu xem)
                 require 'PHPMailer-master/src/SMTP.php';
                 require 'PHPMailer-master/src/Exception.php';
                 // require 'vendor/autoload.php';
 
-                $mail = new PHPMailer\PHPMailer\PHPMailer();
+                $mail = new PHPMailer\PHPMailer\PHPMailer();//từ đây đến phần dưới là quá trình giử pass về mail đăng nhâp
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;

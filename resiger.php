@@ -1,8 +1,8 @@
 <?php
-@include 'connec.php';
+@include 'connec.php';//ket nối máy chủ
 $errors = [];
-if(isset($_POST['login'])){
-$name = $_POST['username'];
+if(isset($_POST['login'])){//kết nối cổng post trong html
+$name = $_POST['username'];//username trong thẻ html, đặt biến name = username
 $password =$_POST['password'];
 $cpassword =$_POST['cpassword'];
 $email =$_POST['email'];
@@ -27,7 +27,7 @@ $email =$_POST['email'];
     {
         $errors[] =" password different from cpassword";
     }
-    if(count($errors) ==0)
+    if(count($errors) ==0)// thêm những biến yêu cầu vào database xampp
     {
         $stmt = $conn->prepare("INSERT INTO user1_name (name, password,email) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $name, $password,$email); // ss: dữ liệu cần chèn là string, nếu là integer thì sử dụng i
@@ -40,7 +40,7 @@ $email =$_POST['email'];
     
         // Đóng prepared statement
         $stmt->close();
-        header("Location: login.php");
+        header("Location: login.php");//thêm xong quay lại trang đăng nhập
     }
 }
 ?>
@@ -48,7 +48,7 @@ $email =$_POST['email'];
 <div class ='i1'>
         <b>Errors:</b>
          <?php 
-         foreach ($errors as $error) {
+         foreach ($errors as $error) {// hàm báo lỗi
           echo '' . $error ;
         }
         ?>     
@@ -79,7 +79,10 @@ $email =$_POST['email'];
             background-position: center;
             height: 100%; 
         }
-        .label{
+        .label{ 
+            /* class label để tạo khung */
+            /* các class khác đọc trong các thẻ html dưới để biết chức năng,phần này chỉ để chỉnh bố cục các thẻ
+            và thay đổi màu sắc */
             margin-left: auto;
             margin-right: auto;
             /* background-color:  #23074d; */
@@ -187,6 +190,7 @@ $email =$_POST['email'];
     <div class="label"></div>
     <h1 class="t1">REGISTER FOR AN ACCOUNT</h1>
     <form class="a1" action="resiger.php" method="post">
+        <!-- phương thức măc định là post và action là tên file đang làm để lấy dữ liệu file đó -->
         <div class="e1">
         <label for="s1" style="margin-left: 4px;">Account name</label>
         <input id="s1" style="margin-left: 41px;" type="text" name="username" placeholder="" size="30px">

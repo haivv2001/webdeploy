@@ -5,7 +5,7 @@ if(isset($_POST['login']))
 {
     $name = $_POST['username'];
     $password = $_POST['password'];
-    $select ="SELECT * FROM user1_name WHERE name ='$name'&& password = '$password'";
+    $select ="SELECT * FROM user1_name WHERE name ='$name'&& password = '$password'";// kiểm tra xem ten và mật khẩu nhap trên web có giống trên database không
     $result =mysqli_query($conn,$select);
     // $stmt = $conn->prepare("SELECT * FROM user1_name WHERE name = ? AND password = ?");
     // $stmt->bind_param("ss", $name, $password);
@@ -13,7 +13,7 @@ if(isset($_POST['login']))
     // $result = $stmt->get_result();
     // if($result->num_rows > 0){
     //     $row = $result->fetch_assoc();
-    if(mysqli_num_rows($result)>0){
+    if(mysqli_num_rows($result)>0){//nếu đúng thi di dến file xuatdulieu
         if(isset($_POST['checkbox'])){
         $row = $result->fetch_assoc();  
         $_SESSION['username'] = $row['name'];

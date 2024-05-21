@@ -1,4 +1,7 @@
 
+<div class="t7">
+        Xin chào, <?php echo htmlspecialchars($_SESSION['username']); ?>!
+</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +37,24 @@
         width: 100%;
         top: 90%;
         /* left: 50%;   */
+        z-index: 0;
+    }
+    .pagination1 {
+        display: flex;
+       justify-content: center;
+        position: absolute;
+        width: 100%;
+        top: 90%;
+        /* left: 50%;   */
+        z-index: 1;
     }
 
     .pagination a {
+        text-decoration: none;
+        color: blue;
+        margin: 0 5px;
+    }
+    .pagination1 a {
         text-decoration: none;
         color: blue;
         margin: 0 5px;
@@ -92,7 +110,56 @@
             width: 300px; */
             
         }
-    
+    .t7{
+        text-align: center;
+        position: relative;
+        top: 7%; 
+        font-size: 30px;
+        color: red;
+        
+    }
+    .t6{
+        position: absolute;
+        top: 58%;
+        left: 4%;
+        height: 20px;
+        width: 176px;
+        background-color: darkgreen;
+        color: #dddddd;
+        border-radius: 5px;
+    }
+    .dd{
+        position: absolute;
+        top: 70%;
+        left: 4%;
+        height: 20px;
+        width: 176px;
+        border-radius: 5px;
+    }
+    .dd1{
+        position: absolute;
+        top: 75%;
+        left: 13%;
+        height: 20px;
+        width: 176px;
+        border-radius: 5px;
+    }
+    .ddd{
+        position: absolute;
+        top: 75%;
+        left: 18%;
+        height: 20px;
+        width: 176px;
+        border-radius: 5px;
+    }
+    .t8{
+        position: absolute;
+        top: 75%;
+        left: 4%;
+        height: 20px;
+        width: 176px;
+        border-radius: 5px;
+    }
 </style>
 </head>
 <body>
@@ -105,7 +172,7 @@
     <input type="text" class="t1" placeholder="Search...">
     <button class="t3">sắp xếp tăng dần</button>
     <button class="t4" >sắp xếp giảm dần</button>
-    
+    <button class="t6" onclick="la_vang_roi()"> web dectech</button>
     <table id="class">
         <thead>
             <tr>
@@ -119,26 +186,35 @@
         </tbody>
     </table>
     <div class="pagination"></div>
+    <div class="pagination1"></div>
+    <input type="text" class="dd" placeholder=" Ten nguoi diem danh" >
+    <div class="dd1"></div>
+    <div class="ddd"></div>
+    <div class="t8">Số lần điểm danh :</div>
     <script>
        
 document.addEventListener("DOMContentLoaded", function() {
     var dataPerPage = 10; // Số lượng mục dữ liệu trên mỗi trang
     var currentPage = 1; // Trang hiện tại
     var responseData = [];
+    var loc_toan_cuc = [];
     $.ajax({
         type : "Get",
         url:"https://script.google.com/macros/s/AKfycbywfq5TTgZ3Eu2iQBNIw0dD8G5GGZNi_Da_eJ3elGroAfkBOBH0oFF3v3ZfuegNK7Ta/exec",
         dataType:"json",
         success: function(response){
             responseData = response;
+            filteredData = response;
+            loc_toan_cuc = response;
             var totalItems = response.length;
             var totalPages = Math.ceil(totalItems / dataPerPage);
-            function displayData(page) {
+            function displayData(page,data) {
+                // if (!data) data = responseData;
                 var start = (page - 1) * dataPerPage;
                 var end = start + dataPerPage;
-                var dataToShow = response.slice(start, end);
+                var dataToShow = data.slice(start, end);
             // function appendData(data) {
-                $("#class tbody").empty();
+                $("#class tbody").html("");
                 // $("#class").append(firstRow);
                 // data.forEach(function(item) {
                     dataToShow.forEach(function(item) {
@@ -150,13 +226,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
                 displayPagination(page, totalPages);
             }
+            
             function displayPagination(currentPage, totalPages) {
                 $(".pagination").empty();
                 var paginationHTML = "";
                 for (var i = 1; i <= totalPages; i++) {
                     paginationHTML += "<a href='#' class='page-link' data-page='" + i + "'>" + i + "</a>";
                 }
-                $(".pagination").html(paginationHTML);
+                 $(".pagination").html(paginationHTML);
 
                 $(".page-link").click(function(e) {
                     e.preventDefault();
@@ -164,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     displayData(page, responseData);
                 });
             }
-
+ 
             displayData(currentPage, responseData);
             // appendData(response);
             // $(".t1").on("keyup", function() {
@@ -181,44 +258,184 @@ document.addEventListener("DOMContentLoaded", function() {
             $(".t1").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 var filteredData = responseData.filter(function(item) {
-                    var rowText = "";
-                    if (typeof item.Date === 'string') {
-                        rowText += item.Date.toLowerCase() + " ";
-                    }
-                    if (typeof item.Time === 'string') {
-                        rowText += item.Time.toLowerCase() + " ";
-                    }
-                    if (typeof item.Name === 'string') {
-                        rowText += item.Name.toLowerCase();
-                    }
+                    if (item.Name && typeof item.Name === 'string' && item.Date && item.Time){
+                    var isoDate = new Date(item.Date);
+                    var standardDate = isoDate.getDate() + "/" + (isoDate.getMonth() + 1) + "/" + isoDate.getFullYear();
+                    var isotime = new Date(item.Time);
+                    var standardTime = isotime.getHours()+":" + isotime.getMinutes()+":" +isotime.getSeconds();   
+                    var rowText = (standardDate + " " + standardTime+ " " + item.Name).toLowerCase();
                     return rowText.includes(value);
+                    }
                 });
+                console.log(filteredData);
                 var totalFilteredItems = filteredData.length;
                 var totalFilteredPages = Math.ceil(totalFilteredItems / dataPerPage);
+                // $("#class tbody").empty();
+                $(".pagination").empty();
+                // console.log(filteredData );
+                // displayData1(1,filteredData);
+                var totalItems1 = filteredData.length;
+                var totalPages1 = Math.ceil(totalItems1 / dataPerPage);
+                displayPagination1(currentPage, totalPages1, filteredData);
+                displayData1(currentPage, filteredData, totalPages1);
+                // console.log(filteredData.length);
+                loc_toan_cuc =filteredData;
+            });
+            function displayData1(page1, filteredData, totalPages1) {
+                var start1 = (page1 - 1) * dataPerPage;
+                var end1 = start1 + dataPerPage;
+                var dataToShow1 = filteredData.slice(start1, end1);
                 $("#class tbody").empty();
-                console.log(filteredData );
+                dataToShow1.forEach(function(item) {
+                    var isoDate = new Date(item.Date);
+                    var standardDate = isoDate.getDate() + "/" + (isoDate.getMonth() + 1) + "/" + isoDate.getFullYear();
+                    var isotime = new Date(item.Time);
+                    var standardTime = isotime.getHours() + ":" + isotime.getMinutes() + ":" + isotime.getSeconds();
+                    $("#class tbody").append("<tr><td>" + standardDate + "</td><td>" + standardTime + "</td><td>" + item.Name + "</td></tr>");
+                });
+                displayPagination1(currentPage, totalPages1,filteredData); // Call the displayPagination1 function
+            }
+
+            // Define the displayPagination1 function outside of the keyup event
+            function displayPagination1(currentPage, totalPages1,filteredData) {
+                $(".pagination1").empty();
+                var paginationHTML1 = "";
+                for (var j = 1; j <= totalPages1; j++) {
+                    paginationHTML1 += "<a href='#' class='page-link1' data-page1='" + j + "'>" + j + "</a>";
+                }
+                $(".pagination1").html(paginationHTML1);
+
+                $(".page-link1").click(function(f) {
+                    f.preventDefault();
+                    var page1 = $(this).attr("data-page1");
+                    displayData1(page1, filteredData,totalPages1);
+                    currentPage = page1;
+                });
+            }
+            
+            
+            // $(".t3").on("click", function() {
+            //     var sortedData =filteredData.length ? filteredData :responseData;
+            //      sortedData.sort(function(a, b) {
+            //         return new Date(a.Date) - new Date(b.Date);
+            //         console.log(filteredData.length);
+            //     });
                 
-            });
-            displayData(currentPage,filteredData);
-            displayPagination(currentPage, totalFilteredPages);
+            //     displayData(currentPage);
+               
+                
+            // });
+            // $(".t4").on("click", function() {
+            //     var sortedData =filteredData.length ?filteredData :responseData;
+            //      sortedData.sort(function(a, b) {
+            //         return new Date(b.Date) - new Date(a.Date);
+            //         console.log("Sorted data:", sortedData);
+            //     });
+            //     // appendData(sortedData);
+                
+            //     displayData(currentPage);
+                
+                
+            // });
             $(".t3").on("click", function() {
-                var sortedData = responseData.sort(function(a, b) {
-                    return new Date(a.Date) - new Date(b.Date);
-                });
-                // appendData(sortedData);
-                displayData(currentPage);
+            if(loc_toan_cuc.length > 0){
+                console.log(loc_toan_cuc);
+                loc_toan_cuc.sort(function(a, b) {
+                return new Date(a.Date) - new Date(b.Date);
             });
+                displayData(currentPage, loc_toan_cuc);
+            }else{
+                console.log(responseData);
+                responseData.sort(function(a, b) {
+                return new Date(a.Date) - new Date(b.Date);
+            });
+                displayData(currentPage, responseData);
+            }
+            });
+
             $(".t4").on("click", function() {
-                var sortedData = responseData.sort(function(a, b) {
+                if(loc_toan_cuc.length > 0){
+                console.log(loc_toan_cuc);
+                loc_toan_cuc.sort(function(a, b) {
                     return new Date(b.Date) - new Date(a.Date);
+                    
                 });
-                // appendData(sortedData);
-                displayData(currentPage);
+                displayData(currentPage, loc_toan_cuc);
+            }else{
+                console.log(responseData);
+                responseData.sort(function(a, b) {
+                return new Date(a.Date) - new Date(b.Date);
             });
-           
+                displayData(currentPage, responseData);
+            }
+            });
+                
+            
+            
+            $(".dd").on("keyup", function() {
+                var value1 = $(this).val().toLowerCase();
+                var filteredData1 = responseData.filter(function(item) {
+                    if (item.Name && typeof item.Name === 'string' && item.Date ){
+                    var isoDate = new Date(item.Date);
+                    var standardDate = isoDate.getDate() + "/" + (isoDate.getMonth() + 1) + "/" + isoDate.getFullYear();
+                    var rowText1 = (standardDate + " " + item.Name).toLowerCase();
+                    return rowText1.includes(value1);
+                    
+                    }
+                    
+                    return false;
+                });
+                
+                var attendanceCount = {};
+                var attendanceCount1 ={};
+                    filteredData1.forEach(function(item) {
+                    var isoDate = new Date(item.Date);
+                    var standardDate = isoDate.getDate() + "/" + (isoDate.getMonth() + 1) + "/" + isoDate.getFullYear();
+                    var key = standardDate + " " + item.Name;
+                    var key1 =item.Name;
+                    if (attendanceCount[key]) {
+                        attendanceCount[key]++;
+                    } else {
+                        attendanceCount[key] = 1;
+                        
+                    }
+                    if(attendanceCount1[key1]){
+                        attendanceCount1[key1]++;
+                    } else {
+                        attendanceCount1[key1] = 1;  
+                    }
+                });
+
+                console.log(filteredData1);
+                console.log(attendanceCount);
+                console.log(attendanceCount1);
+                var total = Object.values(attendanceCount).reduce((sum, count) => sum + count, 0);
+                var total1 =Object.values(attendanceCount1).reduce((sum,count)  => sum + count, 0);
+                // var total =filteredData1.length;
+                var dd = chia_diem_danh(total);
+                var ddd =chia_diem_danh1(total1)
+                $(".dd1").text(dd);
+                function chia_diem_danh(total){
+                  var dd =  total / 2;
+                  return Math.floor(dd);
+                }
+                console.log(chia_diem_danh(total));
+                
+                $(".ddd").text(ddd);
+                function chia_diem_danh1(total1){
+                  var ddd =  total1 / 2;
+                  return Math.floor(ddd);
+                }
+                console.log(chia_diem_danh1(total1));
+            
+        });
         }
     });
 });
+function la_vang_roi(){
+    var url = "http://172.20.10.2";
+    window.open(url, "_blank");
+}
     </script>
 </body>
 </html>
